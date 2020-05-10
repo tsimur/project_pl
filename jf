@@ -43,7 +43,7 @@ pipeline {
       steps {
         script {
           def image_id = registry + ":$BUILD_NUMBER"
-          sh "ansible-playbook  playapp.yaml --extra-vars \"image_id=${image_id}\""
+          sh "ansible-playbook  playapp.yaml --extra-vars \"image_id=$BUILD_NUMBER\""
         }
       }
     }
@@ -51,14 +51,9 @@ pipeline {
       steps {
         script {
           def image_id = registry + ":$BUILD_NUMBER"
-          sh "ansible-playbook  playservice.yaml --extra-vars \"image_id=${image_id}\""
+          sh "ansible-playbook  playservice.yaml --extra-vars \"image_id=$BUILD_NUMBER\""
         }
       }
-    }
-    stage('Tagging and Pushing') {
-      def x = 1;
-      a = x + x;
-      echo "${a}"
     }
   }
 }
