@@ -1,0 +1,7 @@
+- hosts: localhost
+  tasks:
+  - name: Create first deploy
+    k8s:
+      namespace: default
+      state: present
+      src: app.yaml
