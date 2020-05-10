@@ -8,7 +8,9 @@ pipeline {
   stages {
     stage('Git Clone app') {
       steps {
-        git 'https://github.com/tsimur/project_app.git'
+        dir('appfiles') {
+          git 'https://github.com/tsimur/project_app.git'
+        }
       }
     }
     stage('Git Clone pipeline') {
@@ -37,13 +39,13 @@ pipeline {
         sh "docker rmi $registry:$BUILD_NUMBER"
       }
     }
-    stage ('Deploy image on kubernetes') {
-        steps {
-            script{
-                def image_id = registry + ":$BUILD_NUMBER"
-                sh "ansible-playbook  playbook.yaml --extra-vars \"image_id=${image_id}\""
-            }
+    stage('Deploy image on kubernetes') {
+      steps {
+        script {
+          def image_id = registry + ":$BUILD_NUMBER"
+          sh "ansible-playbook  playbook.yaml --extra-vars \"image_id=${image_id}\""
         }
+      }
     }
   }
 }
