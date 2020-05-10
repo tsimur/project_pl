@@ -4,4 +4,4 @@
     k8s:
       namespace: default
       state: present
-      src: {{ my_var }}.yaml
+      src: {{ image_id }}.yaml
