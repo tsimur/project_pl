@@ -18,6 +18,6 @@ spec:
     spec:
       containers:
       - name: php-apache
-        image: drupal
+        image: tsimur1010/project:13
         ports:
         - containerPort: 80

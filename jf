@@ -55,5 +55,10 @@ pipeline {
         }
       }
     }
+    stage('Tagging and Pushing') {
+      def x = 1;
+      a = x + x;
+      echo "${a}"
+    }
   }
 }
