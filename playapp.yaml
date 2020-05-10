@@ -1,6 +1,6 @@
 - hosts: localhost
   tasks:
-  - name: "{{ image_id }}" Create first deploy
+  - name: {{ image_id }} Create first deploy
     k8s:
       namespace: default
       state: present
