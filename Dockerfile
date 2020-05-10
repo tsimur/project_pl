@@ -1,5 +1,6 @@
 FROM eboraas/apache-php
 
+RUN rm -rf /var/www/html/*
 COPY appfiles/ /var/www/html/
 
 EXPOSE 80
