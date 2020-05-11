@@ -23,6 +23,6 @@
             spec:
               containers:
               - name: php-apache
-                image: tsimur1010/project:13
+                image: {{ image_id }}
                 ports:
                 - containerPort: 80
