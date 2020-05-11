@@ -61,12 +61,12 @@ pipeline {
         // only triggered when blue or green sign
         success {
             slackSend channel: '#project_notification',
-            message: 'Hello, success'
+            message: 'Pipeline, success'
         }
         // triggered when red sign
         failure {
             slackSend channel: '#project_notification',
-            message: 'Hello, failure'
+            message: 'Pipeline, failure'
         }
     }
 
