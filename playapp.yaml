@@ -1,32 +1,28 @@
-- name: Create a k8s namespace
-  k8s:
-    name: testing
-    api_version: v1
-    kind: Namespace
-    state: present
-
-- name: Create a Deploy
-  k8s:
-    state: present
-    definition:
-      apiVersion: apps/v1
-      kind: Deployment
-      metadata:
-        name: webserver
-        labels:
-          app: apache
-      spec:
-        replicas: 1
-        selector:
-          matchLabels:
+- hosts: localhost
+  tasks:
+  - name: Create first deploy
+    k8s:
+      namespace: default
+      state: present
+      definition:
+        apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+          name: webserver
+          labels:
             app: apache
-        template:
-          metadata:
-            labels:
+        spec:
+          replicas: 1
+          selector:
+            matchLabels:
               app: apache
-          spec:
-            containers:
-            - name: php-apache
-              image: "{ image_id }"
-              ports:
-              - containerPort: 80
+          template:
+            metadata:
+              labels:
+                app: apache
+            spec:
+              containers:
+              - name: php-apache
+                image: tsimur1010/project:13
+                ports:
+                - containerPort: 80
