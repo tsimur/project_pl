@@ -1,9 +1,32 @@
-- hosts: localhost
-  vars:
-    foo: "{{ image_id }}"
-  tasks:
-  - name: Deploy app
-    k8s:
-      namespace: default
-      state: present
-      src: app.yaml
+- name: Create a k8s namespace
+  k8s:
+    name: testing
+    api_version: v1
+    kind: Namespace
+    state: present
+
+- name: Create a Deploy
+  k8s:
+    state: present
+    definition:
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: webserver
+        labels:
+          app: apache
+      spec:
+        replicas: 1
+        selector:
+          matchLabels:
+            app: apache
+        template:
+          metadata:
+            labels:
+              app: apache
+          spec:
+            containers:
+            - name: php-apache
+              image: "{ image_id }"
+              ports:
+              - containerPort: 80
