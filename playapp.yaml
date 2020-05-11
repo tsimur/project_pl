@@ -2,7 +2,7 @@
   tasks:
   - name: Create first deploy
     k8s:
-      namespace: projectsa
+      namespace: default
       state: present
       definition:
         apiVersion: apps/v1
