@@ -1,8 +1,9 @@
 - hosts: localhost
+  vars:
+    foo: "{{ image_id }}"
   tasks:
-  - name: "{{ image_id }}"
+  - name: Deploy app
     k8s:
       namespace: default
       state: present
-      src:
-        - "{{ image_id }}.yaml"
+      src: app.yaml
