@@ -2,6 +2,6 @@
   tasks:
   - name: Create service to first deploy
     k8s:
-      namespace: default
+      namespace: projectsa
       state: present
       src: app-service.yaml

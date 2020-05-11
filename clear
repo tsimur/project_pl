@@ -1,0 +1,40 @@
+pipeline {
+    environment {
+        registry = "tsimur1010/project"
+        registryCredential = 'dockerhub_id'
+        dockerImage = ''
+    }
+    agent any
+    stages {
+        stage('Clear deploy on kubernetes') {
+            steps {
+                script {
+                    def image_id = registry + ":$BUILD_NUMBER"
+                    sh "ansible-playbook  playapp.yaml --extra-vars \"image_id=${image_id}\""
+                }
+            }
+        }
+        stage('Clear service on kubernetes') {
+            steps {
+                script {
+                    def image_id = registry + ":$BUILD_NUMBER"
+                    sh "ansible-playbook  playservice.yaml --extra-vars \"image_id=${image_id}\""
+                }
+            }
+        }
+    }
+
+    post {
+        // only triggered when blue or green sign
+        success {
+            slackSend channel: '#project_notification',
+            message: 'Clearing, success'
+        }
+        // triggered when red sign
+        failure {
+            slackSend channel: '#project_notification',
+            message: 'Clearing, failure'
+        }
+    }
+
+}
