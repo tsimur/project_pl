@@ -1,6 +1,7 @@
-FROM wordpress:php7.1-apache
+FROM mattrayner/lamp
 
-
+RUN rm -rf /var/www/html/*
+COPY appfiles/ /var/www/html/
 
 EXPOSE 80
 EXPOSE 443
