@@ -4,4 +4,17 @@
     k8s:
       namespace: projectsa
       state: present
-      src: app-service.yaml
+      definition:
+        apiVersion: v1
+        kind: Service
+        metadata:
+          name: web-service
+          labels:
+            run: web-service
+        spec:
+          type: LoadBalancer
+          ports:
+          - port: 80
+            protocol: TCP
+          selector:
+            app: apache
