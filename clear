@@ -1,8 +1,7 @@
 pipeline {
-    environment {
-        registry = "tsimur1010/project"
-        registryCredential = 'dockerhub_id'
-        dockerImage = ''
+    environment{
+
+
     }
     agent any
     stages {
@@ -27,24 +26,16 @@ pipeline {
                 }
             }
         }
-        /*stage('Clear project folder') {
+        stage('Clear project folder') {
             steps {
                 script {
                     sh "rm -r ~jenkins/workspace/firstDeploy/*"
                 }
             }
-        }*/
-        stage('Clear db') {
-            steps {
-                script {
-                withCredentials([usernamePassword(credentialsId: 'mysqlcred', passwordVariable: 'sqlpass', usernameVariable: 'sqluser'), string(credentialsId: 'sqlip', variable: 'ipsql'), usernamePassword(credentialsId: 'wpdb', passwordVariable: 'dbpass', usernameVariable: 'dbuser')]) {
-                    sh "mysql -u $sqluser -p$sqlpass -h $ipsql -e \"DROP USER '$dbuser'@'localhost';\""
-                    sh "mysql -u $sqluser -p$sqlpass -h $ipsql -e \"DROP USER '$dbuser'@'$ipsql';\""
-                    sh "mysql -u $sqluser -p$sqlpass -h $ipsql -e \"DROP DATABASE wordpress;\""
-                    }
-                }
-            }
         }
+
+
+
     }
 
     post {

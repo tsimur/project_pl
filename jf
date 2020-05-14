@@ -6,7 +6,7 @@ pipeline {
     }
     agent any
     stages {
-      /*  stage('Git Clone app') {
+        stage('Git Clone app') {
             steps {
                 dir('appfiles') {
                     git 'https://github.com/tsimur/project_app.git'
@@ -51,29 +51,11 @@ pipeline {
         stage('Deploy service for app') {
             steps {
                 script {
-                    def image_id = registry + ":$BUILD_NUMBER"
-                    sh "ansible-playbook  playservice.yaml --extra-vars \"image_id=${image_id}\""
-                }
-            }
-        }*/
-        stage('Configure db') {
-            steps {
-                script {
-                    withCredentials([usernamePassword(credentialsId: 'mysqlcred', passwordVariable: 'sqlpass', usernameVariable: 'sqluser'), string(credentialsId: 'sqlip', variable: 'ipsql'),usernamePassword(credentialsId: 'wpdb', passwordVariable: 'dbpass', usernameVariable: 'dbuser')]) {
-                        sh "mysql -u $sqluser -p$sqlpass -h $ipsql -e \"CREATE DATABASE wordpress;\""
-                        sh "mysql -u $sqluser -p$sqlpass -h $ipsql -e \"CREATE USER '$dbuser'@'localhost' IDENTIFIED BY '$dbpass';\""
-                        sh "mysql -u $sqluser -p$sqlpass -h $ipsql -e \"GRANT ALL PRIVILEGES ON wordpress.* TO '$dbuser'@'localhost';\""
-                        sh "mysql -u $sqluser -p$sqlpass -h $ipsql -e \"CREATE USER '$dbuser'@'$ipsql' IDENTIFIED BY '$dbpass';\""
-                        sh "mysql -u $sqluser -p$sqlpass -h $ipsql -e \"GRANT ALL PRIVILEGES ON wordpress.* TO '$dbuser'@'$ipsql';\""
-                        sh "mysql -u $sqluser -p$sqlpass -h $ipsql -e \"FLUSH PRIVILEGES;\""
-
-
-                    }
-
-
+                    sh "ansible-playbook  playservice.yaml"
                 }
             }
         }
+
     }
 
     post {
